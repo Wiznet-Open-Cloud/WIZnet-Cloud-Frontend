@@ -8,7 +8,7 @@ import CardContent from "@material-ui/core/CardContent";
 import { compose } from "recompose";
 import { useTab } from "contexts/dashboardContext";
 
-import MoreMenuButton from "./MoreMenuButton";
+import WidgetMenu from "./WidgetMenu";
 
 import ComboChart from "./widgets/ComboChart";
 // Widgets
@@ -35,6 +35,8 @@ const WidgetCard = props => {
         // single data
         return dataList[dataList.length - 1];
       }
+    } else {
+      return null;
     }
   };
 
@@ -57,7 +59,7 @@ const WidgetCard = props => {
       <Card className={classes.card} raised={true}>
         <CardHeader
           className={classes.cardHeader}
-          action={<MoreMenuButton index={gridIndex} />}
+          action={<WidgetMenu index={gridIndex} />}
           subheader={<div className="grid-dragHandle">{grid.name}</div>}
         />
         <CardContent className={classes.cardContents}>
@@ -78,7 +80,11 @@ const WidgetCard = props => {
             />
           ) : null}
           {widgetType.includes("gauge") ? (
-            <GaugeWidget settings={settings} data={getWidgetData(grid)} />
+            <GaugeWidget
+              gItem={grid.layout}
+              settings={settings}
+              data={getWidgetData(grid)}
+            />
           ) : null}
           {widgetType.includes("text") ? (
             <TextWidget settings={settings} data={getWidgetData(grid)} />

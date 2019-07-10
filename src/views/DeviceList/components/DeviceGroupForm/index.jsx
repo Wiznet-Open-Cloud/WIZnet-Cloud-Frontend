@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-import { auth, firestore } from "platform/Firebase/Firebase";
+import { firestore } from "platform/Firebase/Firebase";
 
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -70,9 +70,9 @@ const DeviceGroupForm = props => {
     <Dialog
       open={open}
       onClose={handleClose}
-      aria-labelledby="form-dialog-title"
+      aria-labelledby="add-devicetype-form"
     >
-      <DialogTitle id="form-dialog-title">Add DeviceType</DialogTitle>
+      <DialogTitle id="add-devicetype-form">Add DeviceType</DialogTitle>
       <DialogContent>
         <DialogContentText>Add new device type.</DialogContentText>
         <FormGroup className={classes.container}>

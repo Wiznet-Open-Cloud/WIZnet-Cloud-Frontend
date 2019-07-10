@@ -2,10 +2,8 @@ import React from "react";
 import { Chart } from "react-google-charts";
 
 import isJson from "helpers/isJson";
-import { makeStyles } from "@material-ui/styles";
 
 const ComboChart = props => {
-  const classes = useStyles();
   const { settings, data } = props;
 
   const [type, setType] = React.useState("AreaChart");
@@ -43,38 +41,42 @@ const ComboChart = props => {
     return chartData;
   };
 
-  if (settings.channel === "") {
-    return null;
-  }
+  const calHeight = () => {
+    let height = 200;
+
+    // grid height 값에 따른 chart height 계산
+    try {
+      let gridH = props.gItem.h;
+      height = gridH * 100 - 20;
+    } catch (err) {
+      console.log("<ChartVis> ERROR:", err);
+    }
+    return height;
+  };
+
+  const chartWrapper = ChartWrapper => {
+    if (ChartWrapper !== null) {
+      console.log("chartWrapper >>", ChartWrapper);
+      console.log("chartWrapper >>", ChartWrapper.props.height);
+    }
+  };
 
   // console.log("<ComboChart> props", props);
   return (
-    <div className={classes.container}>
-      <div className={"my-pretty-chart-container"}>
-        <Chart
-          key={type}
-          chartType={type}
-          loader={<div>Loading Chart</div>}
-          data={convertData()}
-          width="100%"
-          height="100%"
-          legendToggle
-        />
-      </div>
+    <div className={"chart-container"}>
+      <Chart
+        key={type}
+        chartType={type}
+        loader={<div>Loading Chart...</div>}
+        data={convertData()}
+        width="100%"
+        // height="100%"
+        height={calHeight()}
+        legendToggle
+        ref={chartWrapper}
+      />
     </div>
   );
 };
-
-const useStyles = makeStyles({
-  container: {
-    // display: "flex",
-    width: "100%"
-  },
-  chart: {
-    display: "flex",
-    width: "100%",
-    height: "100%"
-  }
-});
 
 export default ComboChart;

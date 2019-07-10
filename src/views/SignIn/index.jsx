@@ -14,10 +14,8 @@ import {
 } from "@material-ui/core";
 import { ArrowBack as ArrowBackIcon } from "@material-ui/icons";
 
-// Component styles
 import styles from "./styles";
 
-// Form validation schema
 import FirebaseLogin from "platform/Firebase/FirebaseLogin";
 
 class SignIn extends Component {

@@ -25,6 +25,8 @@ const defaultGrid = {
   minH: 2
 };
 
+// Todo: 위젯 별 Grid 스펙 지정
+
 const Context = createContext();
 const { Provider, Consumer: DashboardConsumer } = Context;
 
@@ -197,7 +199,7 @@ class DashboardProvider extends Component {
         )
       );
 
-      // console.log("<tab> onLayoutChange()", newGrids);
+      console.log("<tab> onLayoutChange()", newGrids);
       this.setState({ grids: newGrids });
     },
 
@@ -221,15 +223,22 @@ class DashboardProvider extends Component {
       const { grids, selectedGridIndex } = this.state;
       let selectedIdx = selectedGridIndex.toString();
 
-      // console.log("handleChange:", name, event.target.value);
+      let value = null;
+      if (event !== null) {
+        value = event.target.value;
+      } else {
+        // if get null, initial value
+        value = defaultSettings[name];
+      }
 
+      // console.log("handleChange:", name, value);
       if (name === "name") {
         this.setState({
           grids: grids.map(grid =>
             grid.layout.i === selectedIdx
               ? {
                   ...grid,
-                  [name]: event.target.value
+                  [name]: value
                 }
               : grid
           )
@@ -244,7 +253,7 @@ class DashboardProvider extends Component {
                     ...grid.widget,
                     settings: {
                       ...grid.widget.settings,
-                      [name]: event.target.value
+                      [name]: value
                     }
                   }
                 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,7 +16,8 @@ import {
   Select,
   InputLabel,
   Input,
-  Checkbox
+  Checkbox,
+  Tooltip
 } from "@material-ui/core";
 
 import { compose } from "recompose";
@@ -25,7 +26,7 @@ import { useTab } from "contexts/dashboardContext";
 import FirestoreSnapshot from "platform/Firebase/FirestoreSnapshot";
 import withDatasource from "platform/Firebase/withDatasource";
 
-const chartTypes = ["Line", "Bar", "Area", "Scatter", "Bubble"];
+const chartTypes = ["Line", "Bar", "Area", "Scatter", "Column"];
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -33,7 +34,7 @@ const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250
+      width: 300
     }
   }
 };
@@ -44,21 +45,13 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1)
   },
   container: {
-    width: 300,
+    width: 350,
     padding: 15
   }
 }));
 
 const WidgetFormDialog = props => {
   const classes = useStyles();
-
-  const [values, setValues] = React.useState({
-    isSaved: false,
-    dataSourceFieldError: false,
-    channelFieldError: false,
-    chartTypeFieldError: false
-  });
-
   const {
     grids,
     selectedGridIndex,
@@ -66,8 +59,27 @@ const WidgetFormDialog = props => {
     formDialogOpen,
     isSourceChanged,
     dataSourceList,
-    channelList
+    channelList,
+    handleChange,
+    handleChangeSource
   } = props;
+
+  const [values, setValues] = useState({
+    isSaved: false,
+    dataSourceFieldError: false,
+    channelFieldError: false,
+    chartTypeFieldError: false
+  });
+  const [channelFormDisable, setChannelFormDisable] = useState(true);
+
+  useEffect(() => {
+    if (isSourceChanged) {
+      setChannelFormDisable(false);
+      // Initial channel value
+      //! 저장된 dashboard load 시에는 초기화하지 않음.
+      // handleChange("channel", null);
+    }
+  }, [isSourceChanged]);
 
   const handleSave = () => {
     let selectedIdx = selectedGridIndex.toString();
@@ -90,9 +102,9 @@ const WidgetFormDialog = props => {
     // console.log("<WidgetFormDialog> onChange", name, event.target.value);
 
     if (name === "dataSource") {
-      props.handleChangeSource(name, event);
+      handleChangeSource(name, event);
     } else {
-      props.handleChange(name, event);
+      handleChange(name, event);
     }
 
     setValues({ ...values, isSaved: false });
@@ -126,9 +138,9 @@ const WidgetFormDialog = props => {
       <Dialog
         open={formDialogOpen}
         onClose={onGridMenuClose}
-        aria-labelledby="form-dialog-title"
+        aria-labelledby="widget-form-dialog"
       >
-        <DialogTitle id="form-dialog-title">Widget settings</DialogTitle>
+        <DialogTitle id="widget-form-dialog">Widget settings</DialogTitle>
         <DialogContent className={classes.container}>
           <DialogContentText>
             Fill the Form for Widget config :)
@@ -163,36 +175,48 @@ const WidgetFormDialog = props => {
             ))}
           </TextField>
 
-          {(isSourceChanged || settings.dataSource.length > 0) &&
-          (grid.widget.type.includes("gauge") ||
-            grid.widget.type.includes("text")) ? (
-            <TextField
-              margin="dense"
-              id="channel"
-              label="Channel"
-              fullWidth
-              onChange={onChange("channel")}
-              select
-              value={settings.channel}
-              error={values.channelFieldError}
-              className={classes.textfield}
+          {/* single channel */}
+          {grid.widget.type.includes("gauge") ||
+          grid.widget.type.includes("text") ? (
+            <Tooltip
+              title="Select device first!"
+              placement="right"
+              open={!isSourceChanged}
             >
-              {channelList.map(channel => (
-                <MenuItem key={channel} value={channel}>
-                  {channel}
-                </MenuItem>
-              ))}
-            </TextField>
+              <TextField
+                margin="dense"
+                id="channel"
+                label="Channel"
+                fullWidth
+                onChange={onChange("channel")}
+                select
+                value={settings.channel}
+                error={values.channelFieldError}
+                className={classes.textfield}
+                disabled={channelFormDisable}
+              >
+                {channelList.map(channel => (
+                  <MenuItem key={channel} value={channel}>
+                    {channel}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Tooltip>
           ) : null}
 
-          {/* for Combo chart */}
-          {((isSourceChanged || settings.dataSource.length > 0) &&
-            grid.widget.type.includes("combo")) ||
+          {/* multi channel */}
+          {grid.widget.type.includes("combo") ||
           grid.widget.type.includes("chart") ? (
             <FormControl className={classes.textfield}>
-              <InputLabel htmlFor="select-multiple-checkbox">
-                Multi Channel
-              </InputLabel>
+              <Tooltip
+                title="Select device first!"
+                placement="right"
+                open={!isSourceChanged}
+              >
+                <InputLabel htmlFor="select-multiple-checkbox">
+                  Channels
+                </InputLabel>
+              </Tooltip>
               <Select
                 multiple
                 value={settings.channel}
@@ -200,6 +224,7 @@ const WidgetFormDialog = props => {
                 input={<Input id="select-multiple-checkbox" />}
                 renderValue={selected => selected.join(", ")}
                 MenuProps={MenuProps}
+                disabled={channelFormDisable}
               >
                 {channelList.map(value => (
                   <MenuItem key={value} value={value}>

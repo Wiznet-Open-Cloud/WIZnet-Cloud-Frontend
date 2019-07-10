@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 // Externals
 import PropTypes from "prop-types";
@@ -16,13 +16,11 @@ import {
 } from "@material-ui/core";
 import { Delete as DeleteIcon } from "@material-ui/icons";
 
-// Shared components
-// import { DisplayMode, SearchInput } from "components";
-
 // Component styles
 import styles from "./styles";
 import DeviceForm from "../DeviceForm";
 import DeviceGroupForm from "../DeviceGroupForm";
+import DeviceRegisterForm from "views/DeviceList/DeviceRegisterForm";
 
 const AlertDialog = props => {
   const { open, handleClose, handleClickOk } = props;
@@ -57,11 +55,12 @@ const AlertDialog = props => {
   );
 };
 
-class DevicesToolbar extends Component {
+class DevicesToolbar extends React.Component {
   state = {
     deviceFormOpen: false,
     alertDialogOpen: false,
-    deviceGroupFormOpen: false
+    deviceGroupFormOpen: false,
+    registerFormOpen: false
   };
 
   handleClick = () => {
@@ -76,7 +75,8 @@ class DevicesToolbar extends Component {
     this.setState({
       deviceFormOpen: false,
       alertDialogOpen: false,
-      deviceGroupFormOpen: false
+      deviceGroupFormOpen: false,
+      registerFormOpen: false
     });
   };
 
@@ -90,8 +90,12 @@ class DevicesToolbar extends Component {
     this.setState({ alertDialogOpen: true });
   };
 
+  handleClickRegister = () => {
+    this.setState({ registerFormOpen: true });
+  };
+
   render() {
-    const { classes, className, selectedDevices } = this.props;
+    const { classes, className, selectedDevices, currentUser } = this.props;
     const rootClassName = classNames(classes.root, className);
 
     return (
@@ -106,7 +110,7 @@ class DevicesToolbar extends Component {
               <DeleteIcon />
             </IconButton>
           )}
-          <Button
+          {/* <Button
             color="primary"
             size="small"
             variant="outlined"
@@ -123,6 +127,15 @@ class DevicesToolbar extends Component {
             className={classes.addButton}
           >
             Add Device Type
+          </Button> */}
+          <Button
+            color="secondary"
+            size="small"
+            variant="outlined"
+            onClick={this.handleClickRegister}
+            className={classes.addButton}
+          >
+            Register Device
           </Button>
           <AlertDialog
             open={this.state.alertDialogOpen}
@@ -136,6 +149,11 @@ class DevicesToolbar extends Component {
           <DeviceGroupForm
             open={this.state.deviceGroupFormOpen}
             handleClose={this.handleClose}
+          />
+          <DeviceRegisterForm
+            open={this.state.registerFormOpen}
+            handleClose={this.handleClose}
+            currentUser={currentUser}
           />
         </div>
         {/* <div className={classes.row}>

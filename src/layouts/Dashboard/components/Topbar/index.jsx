@@ -6,23 +6,12 @@ import classNames from "classnames";
 import compose from "recompose/compose";
 import PropTypes from "prop-types";
 
-// Material helpers
 import { withStyles } from "@material-ui/core";
+import { IconButton, Popover, Toolbar, Typography } from "@material-ui/core";
 
-// Material components
-import {
-  Badge,
-  IconButton,
-  Popover,
-  Toolbar,
-  Typography
-} from "@material-ui/core";
-
-// Material icons
 import {
   Menu as MenuIcon,
   Close as CloseIcon,
-  NotificationsOutlined as NotificationsIcon,
   Input as InputIcon
 } from "@material-ui/icons";
 
@@ -107,7 +96,7 @@ class Topbar extends Component {
       isSidebarOpen,
       onToggleSidebar
     } = this.props;
-    const { notifications, notificationsCount, notificationsEl } = this.state;
+    const { notifications, notificationsEl } = this.state;
 
     const rootClassName = classNames(classes.root, className);
     const showNotifications = Boolean(notificationsEl);

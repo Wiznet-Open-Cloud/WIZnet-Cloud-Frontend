@@ -25,7 +25,7 @@ const TextWidget = props => {
 
     const sourceChannel = settings.channel;
 
-    if (data) {
+    if (data !== null) {
       if (sourceChannel !== "") {
         if (isJson(data.data)) {
           let jsonData = JSON.parse(data.data);
@@ -35,13 +35,15 @@ const TextWidget = props => {
           value = jsonData[sourceChannel] + " " + settings.units;
         }
       }
+      return value;
+    } else {
+      return "";
     }
     // console.log("<TextWidget> convertData()", value);
-    return value;
   };
 
   return (
-    <Typography className={classes.root} variant="h3">
+    <Typography className={classes.root} variant="h1">
       {convertData()}
     </Typography>
   );

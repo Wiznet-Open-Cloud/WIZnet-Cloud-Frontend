@@ -96,40 +96,44 @@ const DeviceForm = props => {
       };
     }
 
-    firestore
-      .collection("dataSource")
-      .doc(values.deviceName)
-      .get()
-      .then(doc => {
-        if (doc.exists) {
-          console.log("Document already exist:", doc.data());
-        } else {
-          firestore
-            .collection("dataSource")
-            .doc(values.deviceName)
-            .set(sourceData)
-            .then(() => {
-              console.log("New dataSource added!", sourceData);
-              alert("New device added:", values.deviceName);
-              setOwner("");
-            })
-            .catch(error => {
-              console.error(
-                "Error writing new device to Firebase Database",
-                error
-              );
-            });
-        }
-      });
+    try {
+      firestore
+        .collection("dataSource")
+        .doc(values.deviceName)
+        .get()
+        .then(doc => {
+          if (doc.exists) {
+            console.log("Document already exist:", doc.data());
+          } else {
+            firestore
+              .collection("dataSource")
+              .doc(values.deviceName)
+              .set(sourceData)
+              .then(() => {
+                console.log("New dataSource added!", sourceData);
+                alert("New device added:", values.deviceName);
+                setOwner("");
+              })
+              .catch(error => {
+                console.error(
+                  "Error writing new device to Firebase Database",
+                  error
+                );
+              });
+          }
+        });
+    } catch (err) {
+      console.log("<DeviceForm>", err);
+    }
   };
 
   return (
     <Dialog
       open={open}
       onClose={handleClose}
-      aria-labelledby="form-dialog-title"
+      aria-labelledby="add-device-form-old"
     >
-      <DialogTitle id="form-dialog-title">Add Device</DialogTitle>
+      <DialogTitle id="add-device-form-old">Add Device</DialogTitle>
       <DialogContent>
         <DialogContentText>Add your device.</DialogContentText>
         <FormGroup className={classes.container}>

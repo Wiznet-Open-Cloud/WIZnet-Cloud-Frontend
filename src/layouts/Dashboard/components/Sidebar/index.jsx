@@ -23,7 +23,6 @@ import {
 // Material icons
 import {
   DashboardOutlined as DashboardIcon,
-  ShoppingBasketOutlined as ShoppingBasketIcon,
   InfoOutlined as InfoIcon,
   DeviceHubOutlined as DeviceIcon,
   StyleOutlined as RulesIcon
@@ -113,14 +112,14 @@ class Sidebar extends Component {
             activeClassName={classes.activeListItem}
             className={classes.listItem}
             component={NavLink}
-            to="/dashboard-multi"
+            to="/dashboard"
           >
             <ListItemIcon className={classes.listItemIcon}>
               <DashboardIcon />
             </ListItemIcon>
             <ListItemText
               classes={{ primary: classes.listItemText }}
-              primary="Multi Dashboard"
+              primary="Dashboard"
             />
           </ListItem>
           {/* <ListItem

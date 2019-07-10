@@ -30,8 +30,8 @@ const UpdateAuth = () => {
         // console.log("Response >", response);
         if (response.data) {
           let accessToken = response.data;
-          // console.log("<UpdateAuth> accessToken >", accessToken);
           localStorage.setItem("access_token", accessToken["access_token"]);
+          // console.log("<UpdateAuth>", accessToken["access_token"]);
         }
       })
       .catch(error => {

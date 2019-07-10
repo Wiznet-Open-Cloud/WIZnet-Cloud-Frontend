@@ -44,7 +44,7 @@ const ChartVis = props => {
     return chartData;
   };
 
-  const calHeiget = () => {
+  const calHeight = () => {
     let height = 200;
 
     // grid height 값에 따른 chart height 계산
@@ -68,7 +68,7 @@ const ChartVis = props => {
   }
   return (
     <FlexibleXYPlot
-      height={calHeiget()}
+      height={calHeight()}
       xType="ordinal"
       // yDomain={[0, 4096]}
     >

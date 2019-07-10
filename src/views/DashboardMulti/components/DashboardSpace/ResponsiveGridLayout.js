@@ -37,13 +37,7 @@ const ResponsiveGridLayout = props => {
   };
 
   if (grids.length === 0) {
-    return (
-      <div>
-        <br />
-        차트를 추가해 보세요!
-        <br />
-      </div>
-    );
+    return null;
   }
 
   return (

@@ -44,11 +44,7 @@ class FirebaseLogin extends React.Component {
           // save new user information
           if (doc.exists) {
           } else {
-            console.log("## saveUser:", user);
-            // const provider = [];
-            // user.providerData.forEach(profile => {
-            //   provider.push(profile);
-            // });
+            console.log("<FirebaseLogin> saveUser:", user);
 
             var userData = {
               userName: user.displayName,
@@ -106,11 +102,8 @@ class FirebaseLogin extends React.Component {
 
     if (loading) {
       return <CircularProgress />;
-    } else {
-      // if (!isLogined) {
-      //   return <Redirect to="/" />;
-      // }
     }
+
     return (
       <div>
         {isLogined ? (

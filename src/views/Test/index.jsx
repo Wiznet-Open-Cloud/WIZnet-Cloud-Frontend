@@ -5,6 +5,8 @@ import UpdateAuth from "./UpdateToken";
 
 import QueryTest from "./QueryTest";
 import MutationTest from "./MutationTest";
+import DeviceDeveloper from "./DeviceDevelper";
+import DeviceSpecForm from "./DeviceDevelper/DeviceSpecForm";
 
 const TestPage = () => {
   return (
@@ -16,6 +18,14 @@ const TestPage = () => {
         <QueryTest />
         <hr />
         <MutationTest />
+        <hr />
+        <hr />
+        <br />
+        <DeviceDeveloper />
+        <br />
+        <hr />
+        <hr />
+        <DeviceSpecForm />
       </div>
     </DashboardLayout>
   );

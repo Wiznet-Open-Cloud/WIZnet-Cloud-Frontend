@@ -1,28 +1,28 @@
-import React from 'react';
+import React from "react";
 
 // Externals
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import PropTypes from "prop-types";
+import classNames from "classnames";
 
 // Material helpers
-import { withStyles } from '@material-ui/core';
+import { withStyles } from "@material-ui/core";
 
 // Component styles
 const styles = theme => ({
   root: {
-    alignItems: 'center',
+    alignItems: "center",
     borderBottom: `1px solid ${theme.palette.border}`,
-    borderTopLeftRadius: '2px',
-    borderTopRightRadius: '2px',
-    display: 'flex',
-    height: '64px',
-    justifyContent: 'space-between',
-    paddingLeft: theme.spacing(1) * 3,
-    paddingRight: theme.spacing(1) * 3,
-    position: 'relative'
+    borderTopLeftRadius: "2px",
+    borderTopRightRadius: "2px",
+    display: "flex",
+    height: "64px",
+    justifyContent: "space-between",
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+    position: "relative"
   },
   noDivider: {
-    borderBottom: 'none'
+    borderBottom: "none"
   },
   noPadding: {
     padding: 0
@@ -42,10 +42,7 @@ const PortletHeader = props => {
   );
 
   return (
-    <div
-      {...rest}
-      className={rootClassName}
-    >
+    <div {...rest} className={rootClassName}>
       {children}
     </div>
   );

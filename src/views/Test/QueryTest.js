@@ -2,11 +2,10 @@ import React from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
-// const USER_EMAIL = "rena@wiznet.io";
-const getDataSourceList = gql`
+const getDataSourceList = ({ email }) => gql`
   {
-    getDataSource(email: "rena@wiznet.io") {
-      createAt
+    getDataSource(email: ${email}) {
+      createdAt
       dataSourceId
       dataSourceType
       displayName
@@ -25,8 +24,10 @@ const getDataSourceList = gql`
 console.log("query:", getDataSourceList);
 
 const QueryTest = () => {
+  const userEmail = "rena@wiznet.io";
+
   return (
-    <Query query={getDataSourceList}>
+    <Query query={getDataSourceList({ userEmail })}>
       {({ loading, error, data }) => {
         if (loading) return <div>Loading...</div>;
         if (error) {

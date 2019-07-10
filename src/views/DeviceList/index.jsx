@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core";
@@ -17,7 +17,7 @@ import { auth, firestore, storage } from "platform/Firebase/Firebase";
 const defaultImageUrl =
   "https://firebasestorage.googleapis.com/v0/b/wiznetiotservice.appspot.com/o/deviceImage%2Fdefault%2Fdefault_logo.png?alt=media&token=f82d9094-7d56-46ac-8432-72db5cfdae2b";
 
-class DeviceList extends Component {
+class DeviceList extends React.Component {
   signal = true;
 
   state = {
@@ -26,15 +26,17 @@ class DeviceList extends Component {
     devices: [],
     selectedDevices: [],
     error: null,
-    images: { default: defaultImageUrl }
+    images: { default: defaultImageUrl },
+    currentUser: null
   };
 
   getDeviceImage = async devices => {
     devices.forEach(async device => {
-      let type = device.dataSourceType;
+      const type = device.dataSourceType;
+      const filename = "thumb@64_" + device.dataSourceType;
       try {
         const storageUrl = await storage
-          .child(`deviceImage/${type}/${type}.png`)
+          .child(`deviceImage/${type}/${filename}.png`)
           .getDownloadURL();
 
         // console.log(`getDeviceImage: ${type}: ${storageUrl}`);
@@ -67,7 +69,11 @@ class DeviceList extends Component {
             console.log("<DevicesTable> deviceList: ", deviceList);
             // get device image url
             this.getDeviceImage(deviceList);
-            this.setState({ devices: deviceList, isLoading: false });
+            this.setState({
+              devices: deviceList,
+              isLoading: false,
+              currentUser: user.email
+            });
           });
       }
     });
@@ -136,7 +142,7 @@ class DeviceList extends Component {
 
   render() {
     const { classes } = this.props;
-    const { selectedDevices } = this.state;
+    const { selectedDevices, currentUser } = this.state;
 
     return (
       <DashboardLayout title="Devices">
@@ -144,6 +150,7 @@ class DeviceList extends Component {
           <DevicesToolbar
             selectedDevices={selectedDevices}
             handleDelete={this.handleDelete}
+            currentUser={currentUser}
           />
           <div className={classes.content}>{this.renderDevices()}</div>
         </div>

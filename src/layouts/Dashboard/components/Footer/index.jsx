@@ -13,10 +13,16 @@ import { Divider, Typography } from "@material-ui/core";
 // Component styles
 const styles = theme => ({
   root: {
-    padding: theme.spacing(1) * 4
+    padding: theme.spacing(4),
+    bottom: "0",
+    right: "0",
+    position: "fixed",
+    textAlign: "right",
+    width: "100%"
+    // borderTop: "1px solid #E7E7E7"
   },
   company: {
-    marginTop: theme.spacing(1) * 2,
+    marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1) * 0.5
   }
 });
@@ -30,7 +36,7 @@ class Footer extends Component {
     return (
       <div className={rootClassName}>
         <Divider />
-        <Typography className={classes.company} variant="body1">
+        <Typography className={classes.company} variant="subtitle2">
           &copy; WIZnet Co., Ltd. 2019
         </Typography>
         {/* <Typography variant="caption">

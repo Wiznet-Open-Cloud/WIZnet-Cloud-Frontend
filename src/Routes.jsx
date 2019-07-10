@@ -8,7 +8,6 @@ import UnderDevelopment from "./views/UnderDevelopment";
 import NotFound from "./views/NotFound";
 
 import DashboardMulti from "./views/DashboardMulti";
-import DashboardSingle from "./views/DashboardSingle";
 import RulePage from "./views/Rules";
 
 // temp test page
@@ -18,9 +17,8 @@ export default class Routes extends Component {
   render() {
     return (
       <Switch>
-        <Redirect exact from="/" to="/dashboard-multi" />
-        <Route component={DashboardMulti} exact path="/dashboard-multi" />
-        <Route component={DashboardSingle} exact path="/dashboard-single" />
+        <Redirect exact from="/" to="/dashboard" />
+        <Route component={DashboardMulti} exact path="/dashboard" />
         <Route component={DeviceList} exact path="/device" />
         <Route component={RulePage} exact path="/rules" />
         <Route component={SignIn} exact path="/sign-in" />

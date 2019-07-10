@@ -15,7 +15,7 @@ const styles = theme => ({
   }
 });
 
-const MoreMenuButton = props => {
+const WidgetMenu = props => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { classes, index, removeGrid, onGridMenuClick } = props;
 
@@ -59,4 +59,4 @@ export default compose(
     removeGrid: actions.removeGrid,
     onGridMenuClick: actions.onGridMenuClick
   }))
-)(MoreMenuButton);
+)(WidgetMenu);

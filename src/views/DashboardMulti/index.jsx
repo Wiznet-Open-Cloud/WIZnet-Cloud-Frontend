@@ -18,7 +18,7 @@ import { DashboardProvider } from "contexts/dashboardContext";
 // Component styles
 const styles = theme => ({
   root: {
-    padding: theme.spacing(1) * 4
+    padding: theme.spacing(4)
   },
   item: {
     height: "100%"

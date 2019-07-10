@@ -51,8 +51,8 @@ const styles = theme => ({
     flexGrow: 1,
     zIndex: 1,
     position: "absolute",
-    top: theme.spacing(1) * 2,
-    right: theme.spacing(1) * 2
+    top: theme.spacing(2),
+    right: theme.spacing(2)
   },
   tabs: {
     marginLeft: -12,

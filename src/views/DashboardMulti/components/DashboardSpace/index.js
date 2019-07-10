@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from "react";
 
 import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
+import { Button, ButtonGroup } from "@material-ui/core";
 
 import SimpleSnackbar from "components/SimpleSnackbar";
 import DashboardTab from "./DashboardTab";
-import AddGridButton from "./AddGridButton";
+import AddWidgetButton from "./AddWidgetButton";
 
 import { compose } from "recompose";
 import { useTab } from "contexts/dashboardContext";
 
 import { auth, firestore } from "platform/Firebase/Firebase";
 import FirestoreSnapshot from "platform/Firebase/FirestoreSnapshot";
-
-const styles = theme => ({
-  button: {
-    marginRight: theme.spacing(1),
-    float: "right"
-  }
-});
 
 const DashboardSpace = props => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -99,21 +92,26 @@ const DashboardSpace = props => {
     <div>
       {isLoaded ? <FirestoreSnapshot /> : null}
 
-      <Button onClick={handleSave} color="primary" className={classes.button}>
-        Save
+      <Button
+        onClick={handleSave}
+        color="secondary"
+        variant="outlined"
+        className={classes.button}
+      >
+        Save Dashboard
       </Button>
-      <Button onClick={removeTab} color="secondary" className={classes.button}>
-        Delete Tab
-      </Button>
-      <Button onClick={addTab} className={classes.button}>
-        Add Tab
-      </Button>
+      <ButtonGroup color="primary" className={classes.button}>
+        <Button onClick={addTab}>Add Tab</Button>
+        <Button onClick={removeTab} color="secondary">
+          Delete Tab
+        </Button>
+      </ButtonGroup>
 
-      <AddGridButton gridsLen={grids.length} />
+      <AddWidgetButton classes={classes} gridsLen={grids.length} />
 
       <SimpleSnackbar
         open={snackbarOpen}
-        message="Current dashboard is saved successfully!"
+        message="Current dashboard is saved!"
         onClose={() => setSnackbarOpen(false)}
       />
 
@@ -121,6 +119,14 @@ const DashboardSpace = props => {
     </div>
   );
 };
+
+const styles = theme => ({
+  button: {
+    marginLeft: theme.spacing(2),
+    marginBottom: theme.spacing(1),
+    float: "right"
+  }
+});
 
 export default compose(
   withStyles(styles),
